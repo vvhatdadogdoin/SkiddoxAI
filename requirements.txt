@@ -1,4 +1,4 @@
-nextcord
+discord
 colorama
 requests
 google.generativeai

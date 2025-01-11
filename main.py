@@ -1,4 +1,4 @@
-import nextcord
+import discord
 import google.generativeai as genai
 import os
 import colorama
@@ -7,9 +7,7 @@ import flask
 import threading
 import asyncio
 
-from nextcord.ext import commands
-from nextcord import Interaction, SlashOption, Attachment
-from nextcord.ui import View, Select
+from discord import app_commands
 from colorama import Fore
 from flask import Flask
 
@@ -18,7 +16,9 @@ token = os.getenv("TOKEN")
 
 genai.configure(api_key=apikey)
 
-bot = commands.Bot(command_prefix=".", intents=nextcord.Intents.all())
+intents = discord.Intents.all() 
+client = discord.Client(intents=intents)
+tree = app_commands.CommandTree(client)
 
 app = Flask(__name__)
 
@@ -136,68 +136,17 @@ tools = [
 ]
 
 
-@bot.event
+@client.event
 async def on_connect():
-	await bot.change_presence(status = nextcord.Status.dnd, activity = nextcord.Activity(type=nextcord.ActivityType.watching, name="your mother"))
+	print("Connected to Discord")
+	await client.change_presence(status = discord.Status.dnd, activity = discord.Activity(type=discord.ActivityType.watching, name="your mother"))
 
-@bot.event
-async def on_command_error(ctx, error):
-	try:
-		await ctx.message.delete()
-	except Exception as err:
-		embed = nextcord.Embed(
-			color = nextcord.Color.red(),
-			title = "Error",
-			description = "An unexpected error has occured."
-		)
-		embed.add_field(name="Details", value=err, inline=False)
-		embed.timestamp = nextcord.utils.utcnow()
-		embed.set_footer(text="Skiddox AI", icon_url="https://cdn.discordapp.com/avatars/1224392642448724012/4875429b51c1bbc32ca18474a0dc0ba4.webp?size=96")
-		await ctx.send(embed=embed)
+@client.event
+async def on_ready():
+	print("Logged in")
 
-	if isinstance(error, commands.CommandNotFound):
-		embed = nextcord.Embed(
-			color = nextcord.Color.yellow(),
-			title = "Warning",
-			description = "This command isn't valid."
-		)
-		embed.timestamp = nextcord.utils.utcnow()
-		embed.set_footer(text="Skiddox AI", icon_url="https://cdn.discordapp.com/avatars/1224392642448724012/4875429b51c1bbc32ca18474a0dc0ba4.webp?size=96") 
-		await ctx.send(embed=embed)
-		print(f"[{Fore.GREEN}Skiddox AI{Fore.RESET}]: Invalid command ran: {ctx.message.content}")
-
-	if isinstance(error, commands.CheckFailure):
-		embed = nextcord.Embed(
-			color = nextcord.Color.yellow(),
-			title = "Warning",
-			description = "You do not have the necessary permissions to use this command."
-		)
-		embed.timestamp = nextcord.utils.utcnow()
-		embed.set_footer(text="Skiddox AI", icon_url="https://cdn.discordapp.com/avatars/1224392642448724012/4875429b51c1bbc32ca18474a0dc0ba4.webp?size=96") 
-		await ctx.send(embed=embed)
-
-	if isinstance(error, commands.BadArgument):
-		embed = nextcord.Embed(
-			color = nextcord.Color.yellow(),
-			title = "Warning",
-			description = "Invalid arguments were provided to the command."
-		)
-		embed.timestamp = nextcord.utils.utcnow()
-		embed.set_footer(text="Skiddox AI", icon_url="https://cdn.discordapp.com/avatars/1224392642448724012/4875429b51c1bbc32ca18474a0dc0ba4.webp?size=96") 
-		await ctx.send(embed=embed)
-
-	if isinstance(error, commands.MissingRequiredArgument):
-		embed = nextcord.Embed(
-			color = nextcord.Color.yellow(),
-			title = "Warning",
-			description = "Missing arguments were provided to the command."
-		)
-		embed.timestamp = nextcord.utils.utcnow()
-		embed.set_footer(text="Skiddox AI", icon_url="https://cdn.discordapp.com/avatars/1224392642448724012/4875429b51c1bbc32ca18474a0dc0ba4.webp?size=96") 
-		await ctx.send(embed=embed)
-
-@bot.slash_command(name="ask", description="Ask the AI a question.")
-async def ask(interaction: Interaction, prompt: str, attachment: Attachment = SlashOption(required = False)):
+@tree.command(name="askai", description="Ask the AI a question.")
+async def askai(interaction: discord.Interaction, prompt: str, attachment: discord.Attachment = None):
 	model = genai.GenerativeModel('gemini-1.5-flash')
 
 	conversation = model.start_chat(
@@ -209,7 +158,7 @@ async def ask(interaction: Interaction, prompt: str, attachment: Attachment = Sl
 		await interaction.response.send_message("The attachment should be an image.", ephemeral=True)
 		return
 	
-	if attachment:
+	if attachment is not None:
 		response = model.generate_content([prompt, attachment])
 		if response.error_code == 200:
 			await interaction.response.send_message(response.text)
@@ -224,7 +173,7 @@ async def ask(interaction: Interaction, prompt: str, attachment: Attachment = Sl
 			await interaction.response.send_message("> Error code: " + response.error_code)
 
 async def main1():
-	await bot.run(token)
+	await client.run(token)
 
 async def main2():
 	await app.run(host = "0.0.0.0", port = 5000, debug = False, use_reloader = False)

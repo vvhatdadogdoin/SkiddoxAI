@@ -205,9 +205,9 @@ async def askai(interaction: discord.Interaction, prompt: str):
 	
 	try:
 		response = chat.send_message(prompt)
-		await interaction.response.send_message(response.text)
+		await interaction.followup.send(response.text)
 	except Exception as err:
-		await interaction.response.send_message("> Error code: " + str(err))
+		await interaction.followup.send("> Error code: " + str(err))
 
 def main1():
 	client.run(token)

@@ -3,11 +3,15 @@ import google.generativeai as genai
 import os
 import colorama
 import requests
+import flask
+import threading
 
 from nextcord.ext import commands
 from nextcord import Interaction, SlashOption, Attachment
 from nextcord.ui import View, Select
 from colorama import Fore
+from flask import Flask
+from threading
 
 apikey = os.getenv("API_KEY")
 token = os.getenv("TOKEN")
@@ -15,6 +19,12 @@ token = os.getenv("TOKEN")
 genai.configure(api_key=apikey)
 
 bot = commands.Bot(command_prefix=".", intents=nextcord.Intents.all())
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+	return "Use SkiddoxAI today! https://discord.com/oauth2/authorize?client_id=1327622242921611325"
 
 def getBans():
 	novaBans = requests.get("http://api.scriptlang.com/bans")
@@ -213,5 +223,18 @@ async def changeprompt(interaction: Interaction, prompt: str, attachment: Attach
 		else:
 			await interaction.response.send_message("> Error code: " + response.error_code)
 
-if __name__ == "__main__": 
+def main1():
 	bot.run(token)
+
+def main2():
+	app.run(host = "0.0.0.0", port = 5000, debug = False, use_reloader = False)
+
+if __name__ == "__main__": 
+	webserver = threading.Thread(target=main2, daemon=True)
+	admin = threading.Thread(target=main1, daemon=True)
+	
+	webserver.start()
+	admin.start()
+	
+	webserver.join()
+	admin.join()

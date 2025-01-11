@@ -137,7 +137,6 @@ tools = [
 
 @bot.event
 async def on_connect():
-	print("Online!")
 	await bot.change_presence(status = nextcord.Status.dnd, activity = nextcord.Activity(type=nextcord.ActivityType.watching, name="your mother"))
 
 @bot.event
@@ -197,7 +196,7 @@ async def on_command_error(ctx, error):
 		await ctx.send(embed=embed)
 
 @bot.slash_command(name="ask", description="Ask the AI a question.")
-async def changeprompt(interaction: Interaction, prompt: str, attachment: Attachment = SlashOption(required = False)):
+async def ask(interaction: Interaction, prompt: str, attachment: Attachment = SlashOption(required = False)):
 	model = genai.GenerativeModel('gemini-1.5-flash')
 
 	conversation = model.start_chat(
@@ -223,14 +222,11 @@ async def changeprompt(interaction: Interaction, prompt: str, attachment: Attach
 		else:
 			await interaction.response.send_message("> Error code: " + response.error_code)
 
-def main1():
-	bot.run(token)
-
 def main2():
 	app.run(host = "0.0.0.0", port = 5000, debug = False, use_reloader = False)
 
 if __name__ == "__main__": 
 	webserver = threading.Thread(target=main2, daemon=True)
-	webserver.start()
 	bot.run(token)
+	webserver.start()
 	webserver.join()

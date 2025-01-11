@@ -135,42 +135,42 @@ def getRobloxUserIdFromName(username):
 	else:
 		return "Error fetching user data from Roblox."
 	
-tools = [getBans]
+#tools = [getBans]
 
-# tools = [
-# 	{
-#         "name": "duckduckgoSearch",
-#         "description": "Searches DuckDuckGo and returns top results for a given query.",
-#         "parameters": {"query": {"type": "string", "description": "The search query."}}
-#     },
-# 	{
-# 		"name": "getDiscordUserInfo",
-# 		"description": "Returns the user information that has been resolved from the specified user ID.",
-# 		"parameters": {"userId": {"type": "string", "description": "The User ID to look up."}}
-# 	},
-# 	{
-# 		"name": "resolveRobloxUserId",
-# 		"description": "Returns the user information that has been resolved from the specified user ID.",
-# 		"parameters": {"userId": {"type": "string", "description": "The User ID to look up."}}
-# 	},
-# 	{
-# 		"name": "getBans",
-# 		"description": "Returns the bans from four remote admin providers.",
-# 		"parameters": None
-# 	},
-# 	{
-# 		"name": "resolveRobloxUsername",
-# 		"description": "Returns the user information that has been resolved from the specified username.",
-# 		"parameters": {"username": {"type": "string", "description": "The username to look up."}}
-# 	},
-# 	{
-#         "name": "getRobloxUserIdFromName",
-#         "description": "Fetches the Roblox user ID given their username.",
-#         "parameters": {
-#             "username": {"type": "string", "description": "The Roblox username to look up."}
-#         }
-#     }
-# ]
+tools = [
+	{
+        "name": "duckduckgoSearch",
+        "description": "Searches DuckDuckGo and returns top results for a given query.",
+        "parameters": {"query": {"type": "string", "description": "The search query."}}
+    },
+	{
+		"name": "getDiscordUserInfo",
+		"description": "Returns the user information that has been resolved from the specified user ID.",
+		"parameters": {"userId": {"type": "string", "description": "The User ID to look up."}}
+	},
+	{
+		"name": "resolveRobloxUserId",
+		"description": "Returns the user information that has been resolved from the specified user ID.",
+		"parameters": {"userId": {"type": "string", "description": "The User ID to look up."}}
+	},
+	{
+		"name": "getBans",
+		"description": "Returns the bans from four remote admin providers.",
+		"parameters": None
+	},
+	{
+		"name": "resolveRobloxUsername",
+		"description": "Returns the user information that has been resolved from the specified username.",
+		"parameters": {"username": {"type": "string", "description": "The username to look up."}}
+	},
+	{
+        "name": "getRobloxUserIdFromName",
+        "description": "Fetches the Roblox user ID given their username.",
+        "parameters": {
+            "username": {"type": "string", "description": "The Roblox username to look up."}
+        }
+    }
+]
 
 
 @client.event

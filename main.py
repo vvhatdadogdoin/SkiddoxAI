@@ -224,10 +224,10 @@ async def ask(interaction: Interaction, prompt: str, attachment: Attachment = Sl
 			await interaction.response.send_message("> Error code: " + response.error_code)
 
 async def main1():
-	bot.run(token)
+	await bot.run(token)
 
 async def main2():
-	app.run(host = "0.0.0.0", port = 5000, debug = False, use_reloader = False)
+	await app.run(host = "0.0.0.0", port = 5000, debug = False, use_reloader = False)
 
 async def main():
 	webserver = asyncio.create_task(main2())

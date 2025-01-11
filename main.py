@@ -144,6 +144,10 @@ async def on_connect():
 @client.event
 async def on_ready():
 	print("Logged in")
+	try:
+		await tree.sync()
+	except Exception as err:
+		print(str(err))
 
 @tree.command(name="askai", description="Ask the AI a question.")
 async def askai(interaction: discord.Interaction, prompt: str, attachment: discord.Attachment = None):

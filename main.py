@@ -198,6 +198,7 @@ async def on_connect():
 @client.event
 async def on_ready():
 	print("Logged in")
+	await client.tree.sync(guild=None)
 
 @tree.command(name="askai", description="Ask the AI a question.")
 async def askai(interaction: discord.Interaction, prompt: str):

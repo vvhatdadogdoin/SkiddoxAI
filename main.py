@@ -231,5 +231,5 @@ def main2():
 if __name__ == "__main__": 
 	webserver = threading.Thread(target=main2, daemon=True)
 	webserver.start()
+	bot.run(token)
 	webserver.join()
-	main1()

@@ -3,3 +3,4 @@ colorama
 requests
 google.generativeai
 flask
+asyncio

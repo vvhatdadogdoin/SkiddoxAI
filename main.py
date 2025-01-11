@@ -197,7 +197,7 @@ async def askai(interaction: discord.Interaction, prompt: str, attachment: disco
 		tools=functions.values()
 	)
 
-	chat = model.start_chat(history=[])
+	chat = model.start_chat(history=[], enable_automatic_function_calling=True)
 
 	if attachment is not None:
 		try:

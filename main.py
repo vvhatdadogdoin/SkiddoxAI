@@ -193,18 +193,18 @@ async def askai(interaction: discord.Interaction, prompt: str, attachment: disco
 	chat = model.start_chat(history=[])
 
 	if attachment is not None:
-		response = chat.send_message([prompt, attachment])
-		if response.error_code == 200:
+		try:
+			response = chat.send_message([prompt, attachment])
 			await interaction.response.send_message(response.text)
-		else:
-			await interaction.response.send_message("> Error code: " + response.error_code)
+		except Exception as err:
+			await interaction.response.send_message("> Error code: " + str(err))
 
 	else:
-		response = chat.send_message(prompt)
-		if response.error_code == 200:
+		try:
+			response = chat.send_message(prompt)
 			await interaction.response.send_message(response.text)
-		else:
-			await interaction.response.send_message("> Error code: " + response.error_code)
+		except Exception as err:
+			await interaction.response.send_message("> Error code: " + str(err))
 
 def main1():
 	client.run(token)

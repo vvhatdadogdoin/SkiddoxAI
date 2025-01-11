@@ -3,4 +3,3 @@ colorama
 requests
 google.generativeai
 flask
-threading

@@ -137,6 +137,7 @@ tools = [
 
 @bot.event
 async def on_connect():
+	print("Online!")
 	await bot.change_presence(status = nextcord.Status.dnd, activity = nextcord.Activity(type=nextcord.ActivityType.watching, name="your mother"))
 
 @bot.event

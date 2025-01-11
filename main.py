@@ -200,20 +200,12 @@ async def on_ready():
 	print("Logged in")
 
 @tree.command(name="askai", description="Ask the AI a question.")
-async def askai(interaction: discord.Interaction, prompt: str, attachment: discord.Attachment = None):
-	if attachment is not None:
-		try:
-			response = chat.send_message([prompt, attachment])
-			await interaction.response.send_message(response.text)
-		except Exception as err:
-			await interaction.response.send_message("> Error code: " + str(err))
-
-	else:
-		try:
-			response = chat.send_message(prompt)
-			await interaction.response.send_message(response.text)
-		except Exception as err:
-			await interaction.response.send_message("> Error code: " + str(err))
+async def askai(interaction: discord.Interaction, prompt: str):
+	try:
+		response = chat.send_message(prompt)
+		await interaction.response.send_message(response.text)
+	except Exception as err:
+		await interaction.response.send_message("> Error code: " + str(err))
 
 def main1():
 	client.run(token)

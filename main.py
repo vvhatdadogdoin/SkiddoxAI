@@ -236,4 +236,5 @@ async def main():
 	await asyncio.gather(webserver, bot)
 
 if __name__ == "__main__": 
+	bot.run(token)
 	asyncio.run(main())

@@ -5,6 +5,7 @@ import colorama
 import requests
 import flask
 import threading
+import asyncio
 
 from nextcord.ext import commands
 from nextcord import Interaction, SlashOption, Attachment
@@ -222,9 +223,17 @@ async def ask(interaction: Interaction, prompt: str, attachment: Attachment = Sl
 		else:
 			await interaction.response.send_message("> Error code: " + response.error_code)
 
-def main2():
+async def main1():
+	bot.run(token)
+
+async def main2():
 	app.run(host = "0.0.0.0", port = 5000, debug = False, use_reloader = False)
 
+async def main():
+	webserver = asyncio.create_task(main2())
+	bot = asyncio.create_task(main1())
+
+	await asyncio.gather(webserver, bot)
+
 if __name__ == "__main__": 
-	bot.run(token)
-	app.run(host = "0.0.0.0", port = 5000, debug = False, use_reloader = False)
+	asyncio.run(main())

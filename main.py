@@ -135,7 +135,7 @@ def getRobloxUserIdFromName(username):
 	else:
 		return "Error fetching user data from Roblox."
 	
-tools = [getDiscordUserInfo, getRobloxUserIdFromName, resolveRobloxUserId, resolveRobloxUsername, getBans, duckduckgoSearch]
+tools = [getBans]
 
 # tools = [
 # 	{

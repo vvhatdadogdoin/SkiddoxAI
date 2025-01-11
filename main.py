@@ -28,7 +28,7 @@ def index():
 
 def getBans():
 	"""
-	Returns bans from Nova, Karma, 112 and Sleepcore
+	Returns bans from Nova, Karma, 112, aparam and Sleepcore
 
 	Arguments: No arguments
 	"""
@@ -36,12 +36,14 @@ def getBans():
 	karmaBans = requests.get("http://karma.scriptlang.com/bans")
 	Bans112 = requests.get("http://api.ocbwoy3.dev/banland.json")
 	sleepcoreBans = requests.get("https://skidgod.vercel.app/SleepCore/bans.json")
+	aparamBans = requests.get("https://zv7i.dev/static/aparambans.json")
 
 	return {
 		"Nova": novaBans.json(),
 		"Karma": karmaBans.json(),
 		"112": Bans112.json(),
-		"Sleepcore": sleepcoreBans.json()
+		"Sleepcore": sleepcoreBans.json(),
+		"aparam": aparamBans.json()
 	}
 
 def resolveRobloxUserId(userId: int):

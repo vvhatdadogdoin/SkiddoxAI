@@ -23,10 +23,10 @@ def getBans():
 	sleepcoreBans = requests.get("https://skidgod.vercel.app/SleepCore/bans.json")
 
 	return {
-		novaBans.json(),
-		karmaBans.json(),
-		Bans112.json(),
-		sleepcoreBans.json()
+		"Nova": novaBans.json(),
+		"Karma": karmaBans.json(),
+		"112": Bans112.json(),
+		"Sleepcore": sleepcoreBans.json()
 	}
 
 def resolveRobloxUserId(userId):
@@ -74,6 +74,21 @@ def resolveRobloxUsername(username):
 			return "User not found."
 	else:
 		return "Error fetching Roblox user data."
+	
+def getRobloxUserIdFromName(username):
+	url = f"https://users.roblox.com/v1/users/search"
+	params = {"keyword": username, "limit": 1}  # Search for the username, limit to 1 result
+	response = requests.get(url, params=params)
+
+	if response.status_code == 200:
+		data = response.json()
+		if data["data"]:
+			user = data["data"][0]
+			return f"User ID for '{username}': {user['id']}"
+		else:
+			return f"User '{username}' not found."
+	else:
+		return "Error fetching user data from Roblox."
 
 tools = [
 	{
@@ -101,6 +116,13 @@ tools = [
 		"description": "Returns the user information that has been resolved from the specified username.",
 		"parameters": {"username": {"type": "string", "description": "The username to look up."}}
 	},
+	{
+        "name": "getRobloxUserIdFromName",
+        "description": "Fetches the Roblox user ID given their username.",
+        "parameters": {
+            "username": {"type": "string", "description": "The Roblox username to look up."}
+        }
+    }
 ]
 
 
@@ -169,7 +191,8 @@ async def changeprompt(interaction: Interaction, prompt: str, attachment: Attach
 	model = genai.GenerativeModel('gemini-1.5-flash')
 
 	conversation = model.start_chat(
-		system_instruction="You are an Artifical Inteligence that is from the beginning of any converations named as 'Mister Skiddox', who has feelings just like any average human. You may also use every available tools you may have to respond to the user's command, make as much best usage of the most popular and the best searching engines as possible (specifically DuckDuckGo search engine), help the user with any programming-related questions and act as an average 'script kiddie' that actually has some insane programming knowledge. You must, sometimes, respond with exactly the name of the user that is asking you a question. You also have access to more tools that I have given you, such as getBans, which returns user bans from remote admin providers (if you dont know what a remote admin is, it is basically admin commands you get in a roblox game but accessible remotely from a specific point, such as from a website or Discord bot)."
+		system_instruction="You are an Artifical Inteligence that is from the beginning of any converations named as 'Mister Skiddox', who has feelings just like any average human. You may also use every available tools you may have to respond to the user's command, make as much best usage of the most popular and the best searching engines as possible (specifically DuckDuckGo search engine), help the user with any programming-related questions and act as an average 'script kiddie' that actually has some insane programming knowledge. You must, sometimes, respond with exactly the name of the user that is asking you a question. You also have access to more tools that I have given you, such as getBans, which returns user bans from remote admin providers (if you dont know what a remote admin is, it is basically admin commands you get in a roblox game but accessible remotely from a specific point, such as from a website or Discord bot). Sometimes, you may want to use terms like :3, OwO, *meow* and meow :3 whenever you have that strong feeling. If you don't know the answer to a question, you must say that 'you are dumb'; you can not leave any responses blank as you must answer to them. If a tool has an error, write out its Python error. You must not repeat the same tool call unnecessarily and only when you have to. In the getBans results, the names are the providers, which means not only you have to write out the username/user ID that you are looking for in the bans, but also write out the provider you found the username/user ID from. And remember: ALWAYS ACT ENTHUSIASTIC AND LIKE A FRIENDLY 'SCRIPT KIDDIE'!",
+		tools=tools
 	)
 
 	if not attachment.content_type.startswith("image"):

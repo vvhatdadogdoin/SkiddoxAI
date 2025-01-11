@@ -201,13 +201,11 @@ async def on_ready():
 
 @tree.command(name="askai", description="Ask the AI a question.")
 async def askai(interaction: discord.Interaction, prompt: str):
-	await interaction.response.defer()
-	
 	try:
-		response = chat.send_message(prompt)
-		await interaction.followup.send(response.text)
+		response = await chat.send_message(prompt)
+		await interaction.response.send_message(response.text)
 	except Exception as err:
-		await interaction.followup.send("> Error code: " + str(err))
+		await interaction.response.send_message("> Error code: " + str(err))
 
 def main1():
 	client.run(token)

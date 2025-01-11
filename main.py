@@ -172,17 +172,18 @@ async def askai(interaction: discord.Interaction, prompt: str, attachment: disco
 		else:
 			await interaction.response.send_message("> Error code: " + response.error_code)
 
-async def main1():
-	await client.run(token)
+def main1():
+	client.run(token)
 
-async def main2():
-	await app.run(host = "0.0.0.0", port = 5000, debug = False, use_reloader = False)
-
-async def main():
-	webserver = asyncio.create_task(main2())
-	bot = asyncio.create_task(main1())
-
-	await asyncio.gather(webserver, bot)
+def main2():
+	app.run(host = "0.0.0.0", port = 5000, debug = False, use_reloader = False)
 
 if __name__ == "__main__": 
-	asyncio.run(main())
+	webserver = threading.Thread(target = main2, daemon=True)
+	bot = threading.Thread(target=main1, daemon=True)
+	
+	webserver.start()
+	bot.start()
+	
+	webserver.join()
+	bot.join()

@@ -164,14 +164,14 @@ async def askai(interaction: discord.Interaction, prompt: str, attachment: disco
 	chat = model.start_chat(history=[])
 
 	if attachment is not None:
-		response = chat.generate_content([prompt, attachment])
+		response = chat.send_message([prompt, attachment])
 		if response.error_code == 200:
 			await interaction.response.send_message(response.text)
 		else:
 			await interaction.response.send_message("> Error code: " + response.error_code)
 
 	else:
-		response = chat.generate_content(prompt)
+		response = chat.send_message(prompt)
 		if response.error_code == 200:
 			await interaction.response.send_message(response.text)
 		else:

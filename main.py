@@ -46,7 +46,7 @@ def getBans():
 		"aparam": aparamBans.json()
 	}
 
-def resolveRobloxUserId(userId: int):
+def resolveRobloxUserId(userId: str):
 	"""
 	Returns the user information from a Roblox user ID
 	
@@ -60,7 +60,7 @@ def resolveRobloxUserId(userId: int):
 	else:
 		return "Error code: " + userinfo.status_code
 
-def getDiscordUserInfo(userId: int):
+def getDiscordUserInfo(userId: str):
 	"""
 	Returns the user information from a Discord user ID
 	

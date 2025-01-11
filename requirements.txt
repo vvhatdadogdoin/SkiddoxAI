@@ -1,0 +1,4 @@
+nextcord
+colorama
+requests
+google.generativeai

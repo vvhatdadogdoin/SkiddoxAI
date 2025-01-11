@@ -201,6 +201,8 @@ async def on_ready():
 
 @tree.command(name="askai", description="Ask the AI a question.")
 async def askai(interaction: discord.Interaction, prompt: str):
+	await interaction.response.defer()
+	
 	try:
 		response = chat.send_message(prompt)
 		await interaction.response.send_message(response.text)

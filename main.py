@@ -230,10 +230,6 @@ def main2():
 
 if __name__ == "__main__": 
 	webserver = threading.Thread(target=main2, daemon=True)
-	admin = threading.Thread(target=main1, daemon=True)
-	
 	webserver.start()
-	admin.start()
-	
 	webserver.join()
-	admin.join()
+	main1()

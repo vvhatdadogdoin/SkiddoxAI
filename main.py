@@ -11,7 +11,6 @@ from nextcord import Interaction, SlashOption, Attachment
 from nextcord.ui import View, Select
 from colorama import Fore
 from flask import Flask
-from threading
 
 apikey = os.getenv("API_KEY")
 token = os.getenv("TOKEN")

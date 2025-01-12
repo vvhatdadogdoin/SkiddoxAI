@@ -262,11 +262,15 @@ async def askai(interaction: discord.Interaction, prompt: str):
 async def resethistory(interaction: discord.Interaction):
 	userId = str(interaction.user.id)
 	
-	if not userId in user_sessions:
-		await interaction.response.send_message("> You do not have an active chat session.")
-	else:
-		del user_sessions[userId]
-		await interaction.response.send_message("> Resetted chat history.")
+	try:
+		if not userId in user_sessions:
+			await interaction.response.send_message("> You do not have an active chat session.")
+		else:
+			del user_sessions[userId]
+			await interaction.response.send_message("> Resetted chat history.")
+	except Exception as err:
+		response = getUserSession(userId=userId).send_message("I want you to tell the user (which is me the person who tried to reset the chat history) who just sent a request to reset the chat history that the following error has unexpectedly occured while doing that: " + str(err))
+		await interaction.followup.send(response.text)
 
 @tree.command(name="changemodel", description="Changes the current model that is being used.")
 @app_commands.choices(option=[
@@ -309,7 +313,7 @@ async def changemodel(interaction: discord.Interaction, option: str):
 		else:
 			await interaction.followup.send("> Error occured: invalid model.")
 	except Exception as err:
-		response = getUserSession(userId=userId).send_message("I want you to tell the user (which is me the person who asked you a question) who just asked you a question that the following error has unexpectedly occured while you were generating a response: " + str(err))
+		response = getUserSession(userId=userId).send_message("I want you to tell the user (which is me the person who tried to change the current model that is being used to "+ option +") who just tried to change the current model that is being used, that the following error has unexpectedly occured while doing that: " + str(err))
 		await interaction.followup.send(response.text)
 
 # @tree.command(name="changeinstructions", description="Changes the system instructions of the model.")

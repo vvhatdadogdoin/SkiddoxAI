@@ -152,7 +152,12 @@ model = genai.GenerativeModel(
 	tools=[getBans, getDiscordUserInfo, getRobloxUserIdFromName, duckduckgoSearch, resolveRobloxUserId, resolveRobloxUsername]
 )
 
-chat = model.start_chat(history=[], enable_automatic_function_calling=True)
+user_sessions = {}
+
+def getUserSession(userId):
+	if userId not in user_sessions:
+		user_sessions[userId] = model.start_chat(history=[], enable_automatic_function_calling=True)
+	return user_sessions[userId]
 
 # tools = [
 # 	{
@@ -198,18 +203,47 @@ async def on_connect():
 @client.event
 async def on_ready():
 	print("Logged in")
-	await tree.sync(guild=None)
+
+@client.event
+async def on_message(message):
+	if message.author == client.user:
+		return
+	
+	userId = message.author.id
+	content = message.content
+
+	if client.user.mentioned_in(message) or (message.reference and message.reference.message_id == client.user.id):
+		userSession = getUserSession(userId=userId)
+
+		try:
+			response = userSession.send_message(prompt=content)
+			await message.channel.send(response.text)
+		except Exception as err:
+			await message.channel.send("> Error occured: " + str(err))
+
 
 @tree.command(name="askai", description="Ask the AI a question.")
 async def askai(interaction: discord.Interaction, prompt: str):
+	userId = str(interaction.user.id)
+	userSession = getUserSession(userId=userId)
+
 	await interaction.response.defer()
 	
 	try:
-		response = chat.send_message(prompt)
+		response = userSession.send_message(prompt)
 		await interaction.followup.send(response.text)
 	except Exception as err:
 		await interaction.followup.send("> Error code: " + str(err))
 
+@tree.command(name="resethistory", description="Resets the history of the chat.")
+async def resethistory(interaction: discord.Interaction):
+	userId = str(interaction.user.id)
+	
+	if not userId in user_sessions:
+		await interaction.response.send("> You do not have an active chat session.")
+	else:
+		del user_sessions[userId]
+		await interaction.response.send("> Resetted chat history.")
 
 def main1():
 	client.run(token)
@@ -219,10 +253,10 @@ def main2():
 
 if __name__ == "__main__": 
 	webserver = threading.Thread(target = main2, daemon=True)
-	#bot = threading.Thread(target=main1, daemon=True)
+	bot = threading.Thread(target=main1, daemon=True)
 	
 	webserver.start()
-	#bot.start()
+	bot.start()
 	
 	webserver.join()
-	#bot.join()
+	bot.join()

@@ -54,7 +54,7 @@ def getSkidShieldBlacklist():
 	"""
 	blacklists = requests.get("https://secload.scriptlang.com/GetIdBlacklists")
 
-	return {"blacklists": blacklists}
+	return {"blacklists": blacklists.json()}
 
 def resolveRobloxUserId(userId: str):
 	"""

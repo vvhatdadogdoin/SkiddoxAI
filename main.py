@@ -307,9 +307,12 @@ async def changemodel(interaction: discord.Interaction, option: str):
 			)
 			currentmodel = option
 
-			del user_sessions[userId]
+			if userId in user_sessions:
+				del user_sessions[userId]
+				await interaction.followup.send("> Model has been changed to: " + option + ". Your chat history has been reset.")
+			else:
+				await interaction.followup.send("> Model has been changed to: " + option + ".")
 
-			await interaction.followup.send("> Model has been changed to: " + option + ". Your chat history has been reset.")
 		else:
 			await interaction.followup.send("> Error occured: invalid model.")
 	except Exception as err:

@@ -240,7 +240,8 @@ async def on_message(message):
 					response = getUserSession(userId=userId).send_message(content)
 					await message.channel.send(response.text)
 				except Exception as err:
-					await message.channel.send("> Error occured: " + str(err))
+					response = getUserSession(userId=userId).send_message("I want you to tell the user (which is me the person who asked you a question) who just asked you a question that the following error has unexpectedly occured while you were generating a response: " + str(err))
+					await message.channel.send(response.text)
 
 
 @tree.command(name="askai", description="Ask the AI a question.")
@@ -254,7 +255,8 @@ async def askai(interaction: discord.Interaction, prompt: str):
 		response = userSession.send_message(prompt)
 		await interaction.followup.send(response.text)
 	except Exception as err:
-		await interaction.followup.send("> Error code: " + str(err))
+		response = getUserSession(userId=userId).send_message("I want you to tell the user (which is me the person who asked you a question) who just asked you a question that the following error has unexpectedly occured while you were generating a response: " + str(err))
+		await interaction.followup.send(response.text)
 
 @tree.command(name="resethistory", description="Resets the history of the chat.")
 async def resethistory(interaction: discord.Interaction):
@@ -307,7 +309,8 @@ async def changemodel(interaction: discord.Interaction, option: str):
 		else:
 			await interaction.followup.send("> Error occured: invalid model.")
 	except Exception as err:
-		await interaction.followup.send("> Error occured: " + str(err))
+		response = getUserSession(userId=userId).send_message("I want you to tell the user (which is me the person who asked you a question) who just asked you a question that the following error has unexpectedly occured while you were generating a response: " + str(err))
+		await interaction.followup.send(response.text)
 
 # @tree.command(name="changeinstructions", description="Changes the system instructions of the model.")
 # async def changeinstructions(interaction: discord.Interaction):

@@ -213,13 +213,12 @@ async def on_message(message):
 	content = message.content
 
 	if client.user.mentioned_in(message) or (message.reference and message.reference.message_id == client.user.id):
-		userSession = getUserSession(userId=userId)
-
-		try:
-			response = userSession.send_message(prompt=content)
-			await message.channel.send(response.text)
-		except Exception as err:
-			await message.channel.send("> Error occured: " + str(err))
+		async with message.channel.typing():
+			try:
+				response = getUserSession(userId=userId).send_message(content)
+				await message.channel.send(response.text)
+			except Exception as err:
+				await message.channel.send("> Error occured: " + str(err))
 
 
 @tree.command(name="askai", description="Ask the AI a question.")

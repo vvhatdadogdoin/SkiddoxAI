@@ -261,10 +261,10 @@ async def resethistory(interaction: discord.Interaction):
 	userId = str(interaction.user.id)
 	
 	if not userId in user_sessions:
-		await interaction.response.send("> You do not have an active chat session.")
+		await interaction.response.send_message("> You do not have an active chat session.")
 	else:
 		del user_sessions[userId]
-		await interaction.response.send("> Resetted chat history.")
+		await interaction.response.send_message("> Resetted chat history.")
 
 @tree.command(name="changemodel", description="Changes the current model that is being used.")
 @app_commands.choices(option=[

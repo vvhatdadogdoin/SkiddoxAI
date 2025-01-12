@@ -267,7 +267,7 @@ async def resethistory(interaction: discord.Interaction):
 		await interaction.response.send("> Resetted chat history.")
 
 @tree.command(name="changemodel", description="Changes the current model that is being used.")
-async def changemodel(interaction: discord.Interaction, option: app_commands.Choice[str] = app_commands.Choice(
+@app_commands.choices(option=[
 	app_commands.Choice(name="gemini-exp-1206", value="gemini-exp-1206"),
 	app_commands.Choice(name="learnlm-1.5-pro-experimental", value="learnlm-1.5-pro-experimental"),
 	app_commands.Choice(name="gemini-2.0-flash-exp", value="gemini-2.0-flash-exp"),
@@ -275,7 +275,8 @@ async def changemodel(interaction: discord.Interaction, option: app_commands.Cho
 	app_commands.Choice(name="gemini-1.5-flash", value="gemini-1.5-flash"),
 	app_commands.Choice(name="gemini-1.5-pro-exp-0827", value="gemini-1.5-pro-exp-0827"),
 	app_commands.Choice(name="gemini-1.5-flash-8b-exp-0924", value="gemini-1.5-flash-8b-exp-0924")
-)):
+])
+async def changemodel(interaction: discord.Interaction, option: str):
 	validchoices = [
 		"gemini-exp-1206",
 		"learnlm-1.5-pro-experimental",

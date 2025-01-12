@@ -219,10 +219,10 @@ def main2():
 
 if __name__ == "__main__": 
 	webserver = threading.Thread(target = main2, daemon=True)
-	bot = threading.Thread(target=main1, daemon=True)
+	#bot = threading.Thread(target=main1, daemon=True)
 	
 	webserver.start()
-	bot.start()
+	#bot.start()
 	
 	webserver.join()
-	bot.join()
+	#bot.join()

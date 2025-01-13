@@ -7,10 +7,12 @@ import flask
 import threading
 import asyncio
 import logging
+import time
 
 from discord import app_commands
 from colorama import Fore
 from flask import Flask
+from time import sleep
 
 apikey = os.getenv("API_KEY")
 token = os.getenv("TOKEN")
@@ -242,6 +244,7 @@ async def on_message(message):
 
 	if client.user.mentioned_in(message):
 		async with message.channel.typing():
+			sleep(2)
 			try:
 				response = getUserSession(userId=userId).send_message(content)
 				await message.reply(response.text)
@@ -251,6 +254,7 @@ async def on_message(message):
 		replied_message = await message.channel.fetch_message(message.reference.message_id)
 		if replied_message.author == client.user:
 			async with message.channel.typing():
+				sleep(2)
 				try:
 					response = getUserSession(userId=userId).send_message(content)
 					await message.reply(response.text)

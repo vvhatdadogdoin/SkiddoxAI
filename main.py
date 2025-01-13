@@ -6,6 +6,7 @@ import requests
 import flask
 import threading
 import asyncio
+import logging
 
 from discord import app_commands
 from colorama import Fore
@@ -15,6 +16,8 @@ apikey = os.getenv("API_KEY")
 token = os.getenv("TOKEN")
 
 genai.configure(api_key=apikey)
+
+logging.basicConfig(level=logging.DEBUG)
 
 intents = discord.Intents.all() 
 client = discord.Client(intents=intents)
@@ -47,7 +50,7 @@ def getBans():
 	}
 
 def outputToConsole(text: str):
-	raise ValueError(text)
+	logging.debug(text)
 
 def getSkidShieldBlacklist():
 	"""

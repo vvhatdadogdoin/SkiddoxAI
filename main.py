@@ -51,6 +51,7 @@ def getBans():
 
 def outputToConsole(text: str):
 	logging.debug(text)
+	print(text, flush=True)
 
 def getSkidShieldBlacklist():
 	"""

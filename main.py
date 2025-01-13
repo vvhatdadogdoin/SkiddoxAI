@@ -29,6 +29,14 @@ app = Flask(__name__)
 def index():
 	return "Use SkiddoxAI today! https://discord.com/oauth2/authorize?client_id=1327622242921611325"
 
+@app.route("/terms")
+def terms():
+	return "Terms: You may not use the AI that is provided by the bot in illegal activities or anything that violates Google's terms of use or Discord's community guidelines. By using this AI, you may agree to the terms mentioned."
+
+@app.route("/privacy")
+def privacy():
+	return "Privacy Policies: Google may use the prompts that are generated to train their AI. To opt-out of this, you may stop interacting with the bot."
+
 def getBans():
 	"""
 	Returns bans from Nova, Karma, 112, aparam and Sleepcore

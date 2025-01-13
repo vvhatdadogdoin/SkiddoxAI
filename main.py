@@ -47,7 +47,7 @@ def getBans():
 	}
 
 def outputToConsole(text: str):
-	print(text)
+	raise ValueError(text)
 
 def getSkidShieldBlacklist():
 	"""

@@ -236,15 +236,15 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-	if message.author == client.user:
-		return
+	#if message.author == client.user:
+	#	return
 	
 	userId = message.author.id
 	content = message.content
 
 	if client.user.mentioned_in(message):
 		async with message.channel.typing():
-			sleep(2)
+			await asyncio.sleep(2)
 			try:
 				response = getUserSession(userId=userId).send_message(content)
 				await message.reply(response.text)
@@ -254,7 +254,7 @@ async def on_message(message):
 		replied_message = await message.channel.fetch_message(message.reference.message_id)
 		if replied_message.author == client.user:
 			async with message.channel.typing():
-				sleep(2)
+				await asyncio.sleep(2)
 				try:
 					response = getUserSession(userId=userId).send_message(content)
 					await message.reply(response.text)

@@ -244,19 +244,19 @@ async def on_message(message):
 		async with message.channel.typing():
 			try:
 				response = getUserSession(userId=userId).send_message(content)
-				await message.channel.send(response.text)
+				await message.reply(response.text)
 			except Exception as err:
-				await message.channel.send("> Error occured: " + str(err))
+				await message.reply("> Error occured: " + str(err))
 	elif message.reference and message.reference.message_id == client.user.id:
 		replied_message = await message.channel.fetch_message(message.reference.message_id)
 		if replied_message.author == client.user:
 			async with message.channel.typing():
 				try:
 					response = getUserSession(userId=userId).send_message(content)
-					await message.channel.send(response.text)
+					await message.reply(response.text)
 				except Exception as err:
 					response = getUserSession(userId=userId).send_message("I want you to tell the user (which is me the person who asked you a question) who just asked you a question that the following error has unexpectedly occured while you were generating a response: " + str(err))
-					await message.channel.send(response.text)
+					await message.reply(response.text)
 
 
 @tree.command(name="askai", description="Ask the AI a question.")

@@ -273,8 +273,8 @@ async def on_message(message):
 			try:
 				response = getUserSession(userId=userId).send_message(content)
 				await message.reply(response.text)
-				createUserHistory().append(userId + ": " + content)
-				createUserHistory().append("Skiddox AI: " + response.text)
+				createUserHistory(userId = userId).append(userId + ": " + content)
+				createUserHistory(userId = userId).append("Skiddox AI: " + response.text)
 			except Exception as err:
 				await message.reply("> Error occured: " + str(err))
 	elif message.reference and message.reference.message_id == client.user.id:
@@ -285,13 +285,13 @@ async def on_message(message):
 				try:
 					response = getUserSession(userId=userId).send_message(content)
 					await message.reply(response.text)
-					createUserHistory().append(userId + ": " + content)
-					createUserHistory().append("Skiddox AI: " + response.text)
+					createUserHistory(userId = userId).append(userId + ": " + content)
+					createUserHistory(userId = userId).append("Skiddox AI: " + response.text)
 				except Exception as err:
 					response = getUserSession(userId=userId).send_message("I want you to tell the user (which is me the person who asked you a question) who just asked you a question that the following error has unexpectedly occured while you were generating a response: " + str(err))
 					await message.reply(response.text)
-					createUserHistory().append(userId + ": " + content)
-					createUserHistory().append("Skiddox AI: " + response.text)
+					createUserHistory(userId = userId).append(userId + ": " + content)
+					createUserHistory(userId = userId).append("Skiddox AI: " + response.text)
 
 
 @tree.command(name="askai", description="Ask the AI a question.")
@@ -304,13 +304,13 @@ async def askai(interaction: discord.Interaction, prompt: str):
 	try:
 		response = userSession.send_message(prompt)
 		await interaction.followup.send(response.text)
-		createUserHistory().append(userId + ": " + prompt)
-		createUserHistory().append("Skiddox AI: " + response.text)
+		createUserHistory(userId = userId).append(userId + ": " + prompt)
+		createUserHistory(userId = userId).append("Skiddox AI: " + response.text)
 	except Exception as err:
 		response = getUserSession(userId=userId).send_message("I want you to tell the user (which is me the person who asked you a question) who just asked you a question that the following error has unexpectedly occured while you were generating a response: " + str(err))
 		await interaction.followup.send(response.text)
-		createUserHistory().append(userId + ": " + prompt)
-		createUserHistory().append("Skiddox AI: " + response.text)
+		createUserHistory(userId = userId).append(userId + ": " + prompt)
+		createUserHistory(userId = userId).append("Skiddox AI: " + response.text)
 
 @tree.command(name="resethistory", description="Resets the history of the chat.")
 async def resethistory(interaction: discord.Interaction):

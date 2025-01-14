@@ -191,7 +191,7 @@ def getUserSession(userId):
 
 @app.route("/generate-response", methods=["POST"])
 def generateresponse():
-	data = response.get_json()
+	data = request.get_json()
 	content = data.get("content")
 	sessionname = data.get("session_name")
 	try:

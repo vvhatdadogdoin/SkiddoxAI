@@ -196,7 +196,7 @@ def generateresponse():
 	sessionname = data.get("session_name")
 	try:
 		response = getUserSession(userId="Session-"+sessionname).send_message(content)
-		return jsonify({"response": response.Text}), 200
+		return jsonify({"response": response.text}), 200
 	except Exception as err:
 		return jsonify({"status": "error-occured", "error": str(err)}), 500
 

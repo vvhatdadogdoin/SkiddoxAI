@@ -193,7 +193,7 @@ def getUserSession(userId):
 def generateresponse():
 	data = response.get_json()
 	content = data.get("content")
-	sessionname = data.get("session-name")
+	sessionname = data.get("session_name")
 	try:
 		response = getUserSession(userId="Session-"+sessionname).send_message(content)
 		return jsonify({"response": response.Text}), 200

@@ -27,7 +27,7 @@ tree = app_commands.CommandTree(client)
 
 app = Flask(__name__)
 
-user_history = {}
+user_history = []
 
 @app.route("/")
 def index():
@@ -199,7 +199,7 @@ def getUserSession(userId):
 
 def createUserHistory(userId):
 	if userId not in user_history:
-		user_history[userId] = {}
+		user_history[userId] = []
 	return user_history[userId]
 
 @app.route("/generate-response", methods=["POST"])
@@ -209,6 +209,8 @@ def generateresponse():
 	sessionname = data.get("session_name")
 	try:
 		response = getUserSession(userId="Session-"+sessionname).send_message(content)
+		createUserHistory(userId = sessionname).append(sessionname + ": " + content)
+		createUserHistory(userId = sessionname).append("Skiddox AI: " + response.text)
 		return jsonify({"response": response.text}), 200
 	except Exception as err:
 		return jsonify({"status": "error-occured", "error": str(err)}), 500

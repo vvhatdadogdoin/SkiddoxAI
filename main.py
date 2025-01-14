@@ -11,7 +11,7 @@ import time
 
 from discord import app_commands
 from colorama import Fore
-from flask import Flask
+from flask import Flask, jsonify, request
 from time import sleep
 
 apikey = os.getenv("API_KEY")
@@ -181,6 +181,7 @@ model = genai.GenerativeModel(
 	tools=[getBans, getDiscordUserInfo, getRobloxUserIdFromName, duckduckgoSearch, resolveRobloxUserId, resolveRobloxUsername, getSkidShieldBlacklist, outputToConsole]
 )
 
+
 user_sessions = {}
 
 def getUserSession(userId):
@@ -188,12 +189,23 @@ def getUserSession(userId):
 		user_sessions[userId] = model.start_chat(history=[], enable_automatic_function_calling=True)
 	return user_sessions[userId]
 
+@app.route("/generate-response", methods=["POST"])
+def generateresponse():
+	data = response.get_json()
+	content = data.get("content")
+	sessionname = data.get("session-name")
+	try:
+		response = getUserSession(userId="Session-"+sessionname).send_message(content)
+		return jsonify({"response": response.Text}), 200
+	except Exception as err:
+		return jsonify({"status": "error-occured", "error": str(err)}), 500
+
 # tools = [
 # 	{
-#         "name": "duckduckgoSearch",
+#         "name": "duckduckgoSearch]",
 #         "description": "Searches DuckDuckGo and returns top results for a given query.",
 #         "parameters": {"query": {"type": "string", "description": "The search query."}}
-#     },
+#   },
 # 	{
 # 		"name": "getDiscordUserInfo",
 # 		"description": "Returns the user information that has been resolved from the specified user ID.",
@@ -236,15 +248,15 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-	#if message.author == client.user:
-	#	return
+	if message.author == client.user:
+		return
 	
 	userId = message.author.id
 	content = message.content
 
 	if client.user.mentioned_in(message):
 		async with message.channel.typing():
-			await asyncio.sleep(2)
+			await asyncio.sleep(7)
 			try:
 				response = getUserSession(userId=userId).send_message(content)
 				await message.reply(response.text)
@@ -254,7 +266,7 @@ async def on_message(message):
 		replied_message = await message.channel.fetch_message(message.reference.message_id)
 		if replied_message.author == client.user:
 			async with message.channel.typing():
-				await asyncio.sleep(2)
+				await asyncio.sleep(7)
 				try:
 					response = getUserSession(userId=userId).send_message(content)
 					await message.reply(response.text)

@@ -27,7 +27,7 @@ tree = app_commands.CommandTree(client)
 
 app = Flask(__name__)
 
-user_history = []
+user_history = {}
 
 @app.route("/")
 def index():

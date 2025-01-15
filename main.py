@@ -237,7 +237,7 @@ user_sessions = {}
 
 def getUserSession(userId):
 	if userId not in user_sessions:
-		user_sessions[str(userId)] = model.start_chat(history=[], enable_automatic_function_calling=True)
+		user_sessions[userId] = model.start_chat(history=[], enable_automatic_function_calling=True)
 	return user_sessions[userId]
 
 def createUserHistory(userId):
@@ -316,7 +316,7 @@ async def on_message(message):
 		async with message.channel.typing():
 			await asyncio.sleep(7)
 			try:
-				response = getUserSession(userId=userId).send_message(content)
+				response = getUserSession(userId=str(userId)).send_message(content)
 				await message.reply(response.text)
 				createUserHistory(userId = userId).append(str(userId) + ": " + content)
 				createUserHistory(userId = userId).append("Skiddox AI: " + response.text)
@@ -328,15 +328,13 @@ async def on_message(message):
 			async with message.channel.typing():
 				await asyncio.sleep(7)
 				try:
-					response = getUserSession(userId=userId).send_message(content)
+					response = getUserSession(userId=str(userId)).send_message(content)
 					await message.reply(response.text)
 					createUserHistory(userId = userId).append(str(userId) + ": " + content)
 					createUserHistory(userId = userId).append("Skiddox AI: " + response.text)
 				except Exception as err:
-					response = getUserSession(userId=userId).send_message("I want you to tell the user (which is me the person who asked you a question) who just asked you a question that the following error has unexpectedly occured while you were generating a response: " + str(err))
+					response = getUserSession(userId=str(userId)).send_message("I want you to tell the user (which is me the person who asked you a question) who just asked you a question that the following error has unexpectedly occured while you were generating a response: " + str(err))
 					await message.reply(response.text)
-					createUserHistory(userId = userId).append(str(userId) + ": " + content)
-					createUserHistory(userId = userId).append("Skiddox AI: " + response.text)
 
 
 @tree.command(name="askai", description="Ask the AI a question.")

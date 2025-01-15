@@ -237,7 +237,7 @@ user_sessions = {}
 
 def getUserSession(userId):
 	if userId not in user_sessions:
-		user_sessions[userId] = model.start_chat(history=[], enable_automatic_function_calling=True)
+		user_sessions[str(userId)] = model.start_chat(history=[], enable_automatic_function_calling=True)
 	return user_sessions[userId]
 
 def createUserHistory(userId):

@@ -323,7 +323,8 @@ async def on_message(message):
 			await asyncio.sleep(7)
 			try:
 				if message.attachments:
-					response = getUserSession(userId=str(userId)).send_message([content, message.attachments[1]])
+					attach = await message.attachments[0].read()
+					response = getUserSession(userId=str(userId)).send_message([content, attach])
 					await message.reply(response.text)
 					createUserHistory(userId = userId).append(str(userId) + ": " + content)
 					createUserHistory(userId = userId).append("Skiddox AI: " + response.text)
@@ -342,7 +343,7 @@ async def on_message(message):
 				await asyncio.sleep(7)
 				try:
 					if message.attachments:
-						response = getUserSession(userId=str(userId)).send_message([content, message.attachments[1]])
+						response = getUserSession(userId=str(userId)).send_message([content, attach])
 						await message.reply(response.text)
 						createUserHistory(userId = userId).append(str(userId) + ": " + content)
 						createUserHistory(userId = userId).append("Skiddox AI: " + response.text)

@@ -321,7 +321,8 @@ async def on_message(message):
 				createUserHistory(userId = userId).append(str(userId) + ": " + content)
 				createUserHistory(userId = userId).append("Skiddox AI: " + response.text)
 			except Exception as err:
-				await message.reply("> Error occured: " + str(err))
+				response = getUserSession(userId=str(userId)).send_message("I want you to tell the user (which is me the person who asked you a question) who just asked you a question that the following error has unexpectedly occured while you were generating a response: " + str(err))
+				await message.reply(response.text)
 	elif message.reference and message.reference.message_id == client.user.id:
 		replied_message = await message.channel.fetch_message(message.reference.message_id)
 		if replied_message.author == client.user:

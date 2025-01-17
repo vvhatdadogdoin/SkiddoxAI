@@ -343,6 +343,7 @@ async def on_message(message):
 				await asyncio.sleep(7)
 				try:
 					if message.attachments:
+						attach = await message.attachments[0].read()
 						response = getUserSession(userId=str(userId)).send_message([content, attach])
 						await message.reply(response.text)
 						createUserHistory(userId = userId).append(str(userId) + ": " + content)

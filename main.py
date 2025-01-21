@@ -96,11 +96,26 @@ def getBans():
 
 	Arguments: No arguments
 	"""
-	try: novaBans = requests.get("http://api.scriptlang.com/bans") except Exception as err: novaBans = "The end-point may be down. Error: " + str(err)
-	try: Bans112 = requests.get("http://api.ocbwoy3.dev/banland.json") except Exception as err: Bans112 = "The end-point may be down. Error: " + str(err)
-	try: karmaBans = requests.get("http://karma.scriptlang.com/bans") except Exception as err: karmaBans = "The end-point may be down. Error: " + str(err)
-	try: aparamBans = requests.get("https://zv7i.dev/static/aparambans.json") except Exception as err: aparamBans = "The end-point may be down. Error: " + str(err)
-	try: sleepcoreBans = requests.get("https://skidgod.vercel.app/SleepCore/bans.json") except Exception as err: sleepcoreBans = "The end-point may be down. Error: " + str(err)
+	try: 
+		novaBans = requests.get("http://api.scriptlang.com/bans") 
+	except Exception as err: 
+		novaBans = "The end-point may be down. Error: " + str(err)
+	try: 
+		Bans112 = requests.get("http://api.ocbwoy3.dev/banland.json") 
+	except Exception as err: 
+		Bans112 = "The end-point may be down. Error: " + str(err)
+	try: 
+		karmaBans = requests.get("http://karma.scriptlang.com/bans") 
+	except Exception as err: 
+		karmaBans = "The end-point may be down. Error: " + str(err)
+	try: 
+		aparamBans = requests.get("https://zv7i.dev/static/aparambans.json") 
+	except Exception as err: 
+		aparamBans = "The end-point may be down. Error: " + str(err)
+	try: 
+		sleepcoreBans = requests.get("https://skidgod.vercel.app/SleepCore/bans.json") 
+	except Exception as err: 
+		sleepcoreBans = "The end-point may be down. Error: " + str(err)
 
 	return {
 		"Nova": novaBans.json(),

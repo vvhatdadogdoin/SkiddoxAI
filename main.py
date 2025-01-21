@@ -96,11 +96,11 @@ def getBans():
 
 	Arguments: No arguments
 	"""
-	novaBans = requests.get("http://api.scriptlang.com/bans")
-	karmaBans = requests.get("http://karma.scriptlang.com/bans")
-	Bans112 = requests.get("http://api.ocbwoy3.dev/banland.json")
-	sleepcoreBans = requests.get("https://skidgod.vercel.app/SleepCore/bans.json")
-	aparamBans = requests.get("https://zv7i.dev/static/aparambans.json")
+	try: novaBans = requests.get("http://api.scriptlang.com/bans") except: novaBans = None
+	try: Bans112 = requests.get("http://api.ocbwoy3.dev/banland.json") except: Bans112 = None
+	try: karmaBans = requests.get("http://karma.scriptlang.com/bans") except: karmaBans = None
+	try: aparamBans = requests.get("https://zv7i.dev/static/aparambans.json") except: aparamBans = None
+	try: sleepcoreBans = requests.get("https://skidgod.vercel.app/SleepCore/bans.json") except: sleepcoreBans = None
 
 	return {
 		"Nova": novaBans.json(),

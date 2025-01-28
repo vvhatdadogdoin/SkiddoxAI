@@ -415,7 +415,7 @@ async def echo(interaction: discord.Interaction, channel: str, message: str):
 			)
 			await interaction.followup.send("> Sent!")
 		except Exception as err:
-			await interaction.followup.send("> Error: " + str(err)
+			await interaction.followup.send("> Error: " + str(err))
 	else:
 		await interaction.followup.send("> You are not the owner. ")
 

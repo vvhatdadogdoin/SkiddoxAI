@@ -401,7 +401,7 @@ async def resethistory(interaction: discord.Interaction):
 async def echo(interaction: discord.Interaction, channel: str, message: str):
 	await interaction.response.defer()
 
-	if interaction.author.id == 1224392642448724012:
+	if interaction.user.id == 1224392642448724012:
 		try:
 			channelid = str(channel)
 			req = requests.post(

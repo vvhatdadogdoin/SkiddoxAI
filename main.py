@@ -410,7 +410,7 @@ async def echo(interaction: discord.Interaction, channel: str, message: str):
 					"content": message
 				},
 				headers={
-					"Authorization": token
+					"Authorization": "Bot " + token
 				}
 			)
 			await interaction.followup.send("> Sent!")

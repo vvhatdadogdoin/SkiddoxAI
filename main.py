@@ -413,11 +413,11 @@ async def echo(interaction: discord.Interaction, channel: str, message: str):
 					"Authorization": token
 				}
 			)
-			await interaction.followup.send("> Sent!", ephemeral = True)
+			await interaction.followup.send("> Sent!")
 		except Exception as err:
-			await interaction.followup.send("> Error: " + str(err), ephemeral = True)
+			await interaction.followup.send("> Error: " + str(err)
 	else:
-		await interaction.followup.send("> You are not the owner. ", ephemeral = True)
+		await interaction.followup.send("> You are not the owner. ")
 
 @tree.command(name="changemodel", description="Changes the current model that is being used.")
 @app_commands.choices(option=[

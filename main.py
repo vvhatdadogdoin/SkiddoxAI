@@ -81,7 +81,7 @@ user_history = {}
 disallowed_inappropriate_words = [
 	"sex",
 	"unbutton shirt",
-	"pornography,
+	"pornography",
 	"porn",
 	"pussy",
 	"vagina",

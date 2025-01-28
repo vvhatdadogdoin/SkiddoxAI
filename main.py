@@ -397,6 +397,27 @@ async def resethistory(interaction: discord.Interaction):
 		response = getUserSession(userId=userId).send_message("I want you to tell the user (which is me the person who tried to reset the chat history) who just sent a request to reset the chat history that the following error has unexpectedly occured while doing that: " + str(err))
 		await interaction.followup.send(response.text)
 
+@tree.command(name="echo", description="Sends a message in the specified channel.")
+async def echo(interaction: discord.Interaction, channel: int, message: str):
+	await interaction.response.defer()
+
+	if interaction.author.id == 1224392642448724012:
+		try:
+			req = requests.post(
+				f"https://discord.com/api/v9/channels/{channel}/messages", 
+				json={
+					"content": message
+				},
+				headers={
+					"Authorization": token
+				}
+			)
+			await interaction.followup.send("> Sent!", ephemeral = True)
+		except Exception as err:
+			await interaction.followup.send("> Error: " + str(err), ephemeral = True)
+	else:
+		await interaction.followup.send("> You are not the owner. ", ephemeral = True)
+
 @tree.command(name="changemodel", description="Changes the current model that is being used.")
 @app_commands.choices(option=[
 	app_commands.Choice(name="gemini-exp-1206", value="gemini-exp-1206"),

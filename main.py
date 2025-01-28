@@ -78,6 +78,24 @@ app = Flask(__name__)
 
 user_history = {}
 
+disallowed_inappropriate_words = [
+	"sex",
+	"unbutton shirt",
+	"pornography,
+	"porn",
+	"pussy",
+	"vagina",
+	"vaginal hair",
+	"ass",
+	"asshole",
+	"boobs",
+	"boob",
+	"cock",
+	"penis",
+	"yuri",
+	"hentai"
+]
+
 @app.route("/")
 def index():
 	return "Use SkiddoxAI today! https://discord.com/oauth2/authorize?client_id=1327622242921611325"
@@ -280,7 +298,7 @@ def generateresponse():
 # 		"description": "Returns the user information that has been resolved from the specified user ID.",
 # 		"parameters": {"userId": {"type": "string", "description": "The User ID to look up."}}
 # 	},
-# 	{
+# 	{v
 # 		"name": "getBans",
 # 		"description": "Returns the bans from four remote admin providers.",
 # 		"parameters": None
@@ -317,6 +335,11 @@ async def on_message(message):
 	
 	userId = message.author.id
 	content = message.content
+
+	if disallowed_inappropriate_words[0] in message.content or disallowed_inappropriate_words[1] in message.content or disallowed_inappropriate_words[2] in message.content or disallowed_inappropriate_words[3] in message.content or disallowed_inappropriate_words[4] in message.content or disallowed_inappropriate_words[5] in message.content or disallowed_inappropriate_words[6] in message.content or disallowed_inappropriate_words[7] in message.content or disallowed_inappropriate_words[8] in message.content or disallowed_inappropriate_words[9] in message.content or disallowed_inappropriate_words[10] in message.content or disallowed_inappropriate_words[11] in message.content or disallowed_inappropriate_words[12] in message.content or disallowed_inappropriate_words[13] in message.content or disallowed_inappropriate_words[4] in message.content:
+		response = getUserSession(userId=str(userId)).send_message("I want you to tell the user (which is me the person who just asked you to do something inappropriate) who just asked you an inappropriate question which ended up getting the following filtered: " + str(message.content))
+		await message.reply(response.text)
+		return
 
 	if client.user.mentioned_in(message):
 		async with message.channel.typing():

@@ -337,7 +337,7 @@ async def on_message(message):
 	content = message.content
 
 	if disallowed_inappropriate_words[0] in message.content or disallowed_inappropriate_words[1] in message.content or disallowed_inappropriate_words[2] in message.content or disallowed_inappropriate_words[3] in message.content or disallowed_inappropriate_words[4] in message.content or disallowed_inappropriate_words[5] in message.content or disallowed_inappropriate_words[6] in message.content or disallowed_inappropriate_words[7] in message.content or disallowed_inappropriate_words[8] in message.content or disallowed_inappropriate_words[9] in message.content or disallowed_inappropriate_words[10] in message.content or disallowed_inappropriate_words[11] in message.content or disallowed_inappropriate_words[12] in message.content or disallowed_inappropriate_words[13] in message.content or disallowed_inappropriate_words[4] in message.content:
-		response = getUserSession(userId=str(userId)).send_message("I want you to tell the user (which is me the person who just asked you to do something inappropriate) who just asked you an inappropriate question which ended up getting the following filtered: " + str(message.content))
+		response = getUserSession(userId=str(userId)).send_message("I want you to tell the user (which is me the person who just asked you to do something inappropriate) who just asked you an inappropriate question which ended up getting the following filtered that the content they just sent is inappropriate and that they should send something else: " + str(message.content))
 		await message.reply(response.text)
 		return
 

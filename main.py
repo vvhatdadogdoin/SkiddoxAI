@@ -398,13 +398,14 @@ async def resethistory(interaction: discord.Interaction):
 		await interaction.followup.send(response.text)
 
 @tree.command(name="echo", description="Sends a message in the specified channel.")
-async def echo(interaction: discord.Interaction, channel: int, message: str):
+async def echo(interaction: discord.Interaction, channel: str, message: str):
 	await interaction.response.defer()
 
 	if interaction.author.id == 1224392642448724012:
 		try:
+			channelid = str(channel)
 			req = requests.post(
-				f"https://discord.com/api/v9/channels/{channel}/messages", 
+				f"https://discord.com/api/v9/channels/{channelid}/messages", 
 				json={
 					"content": message
 				},

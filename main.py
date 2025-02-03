@@ -131,7 +131,16 @@ def getBans():
 def outputToConsole(text: str):
 	logging.debug(text)
 	print(text, flush=True)
-	
+
+def getHyperskiddedHubUsageBans():
+	"""
+	Returns usage bans from Hyperskidded Hub.
+
+	Arguments: No arguments
+	"""
+	usageBans = requests.get("https://hyperskidded-bot.onrender.com/usage-bans")
+
+	return {"usageBans": usageBans.json()}
 
 def getSkidShieldBlacklist():
 	"""
@@ -253,7 +262,7 @@ currentmodel = 'gemini-1.5-flash'
 model = genai.GenerativeModel(
 	'gemini-1.5-flash',
 	system_instruction=systeminstructions,
-	tools=[getBans, getDiscordUserInfo, getRobloxUserIdFromName, duckduckgoSearch, resolveRobloxUserId, resolveRobloxUsername, getSkidShieldBlacklist, outputToConsole, getUserHistory]
+	tools=[getBans, getDiscordUserInfo, getRobloxUserIdFromName, duckduckgoSearch, resolveRobloxUserId, resolveRobloxUsername, getSkidShieldBlacklist, outputToConsole, getUserHistory, getHyperskiddedHubUsageBans]
 )
 
 
@@ -473,7 +482,7 @@ async def changemodel(interaction: discord.Interaction, option: str):
 			model =	genai.GenerativeModel(
 				option,
 				system_instruction=systeminstructions,
-				tools=[getBans, getDiscordUserInfo, getRobloxUserIdFromName, duckduckgoSearch, resolveRobloxUserId, resolveRobloxUsername, getSkidShieldBlacklist, outputToConsole, getUserHistory]
+				tools=[getBans, getDiscordUserInfo, getRobloxUserIdFromName, duckduckgoSearch, resolveRobloxUserId, resolveRobloxUsername, getSkidShieldBlacklist, outputToConsole, getUserHistory, getHyperskiddedHubUsageBans]
 			)
 			currentmodel = option
 
